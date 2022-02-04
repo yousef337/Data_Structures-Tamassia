@@ -1,38 +1,51 @@
 package com.company.CH6;
 
-//TODO COMPLETE IT
+
 public class LinkedLeakyStack <E>{
 
     private Node first;
-    private Node second;
+    private Node beforeLast;
     private Node last;
     private int maxSize;
     private int currentSize = 0;
 
     public LinkedLeakyStack(int size){
+        if (size < 0)
+            size = 0;
         this.maxSize = size;
     }
 
     public void add(E e){
+
         if (currentSize < maxSize) {
 
             if (last == null) {
                 last = new Node(null, e);
                 first = last;
+            }else if (beforeLast == null){
+                beforeLast = first;
+                last = new Node(null, e);
+                last.setBack(beforeLast);
+            }else{
+                beforeLast = last;
+                last = new Node(null, e);
+                last.setBack(beforeLast);
             }
-            else if (second == null) {
-                second = new Node(first, e);
-                last = second;
-            }
-
             currentSize++;
 
         }else{
 
             first.setData(e);
-            first.setBack(second);
-            second.nullifyBack();
+            first.setBack(last);
+            beforeLast = last;
+            last = first;
 
+            Node second = beforeLast;
+            while (second.getBack() != first)
+                second = second.getBack();
+
+            first = second;
+            first.nullifyBack();
         }
 
     }
@@ -49,13 +62,16 @@ public class LinkedLeakyStack <E>{
 
         Object data = last.getData();
 
-        /*
-        if (currentSize > 2)
-            first = first.getBack();
-        else
+        if (currentSize == 1){
+            last = null;
             first = null;
-        currentSize--; // EXCEPT WHEN CURRENTSIZE==SIZE
-         */
+        }else {
+            last.setData(null);
+            last = beforeLast;
+            beforeLast = beforeLast.getBack();
+        }
+
+        currentSize--;
 
         return (E) data;
     }
@@ -79,8 +95,8 @@ public class LinkedLeakyStack <E>{
             return back;
         }
 
-        public void setBack(Node back) {
-            this.back = back;
+        public void setBack(Node next) {
+            this.back = next;
         }
 
         public void setData(E data) {

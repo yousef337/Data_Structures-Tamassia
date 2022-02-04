@@ -3,7 +3,24 @@ package com.company.CH6;
 public class main {
 
     public static void main(String[] args) throws StackOutOfBoundException {
-        testLinkedLeakyStack();
+        testDeque();
+    }
+
+    /**
+     * This method is NOT intended to simulate unit testing.
+     */
+    public static void testDeque(){
+        Deque<Integer> d = new Deque(7);
+        d.addFront(1);
+        d.addRear(2);
+        d.addRear(3);
+        d.addFront(4);
+        d.addFront(5);
+        d.addRear(6);
+        d.addFront(7);
+        d.removeRear();
+        d.removeRear();
+        d.printRear();
     }
 
     /**
@@ -28,12 +45,20 @@ public class main {
      */
     public static void testLinkedLeakyStack(){
 
-        LinkedLeakyStack<Integer> lls = new LinkedLeakyStack(3);
+        LinkedLeakyStack<Integer> lls = new LinkedLeakyStack(5);
         lls.add(3);
         lls.add(4);
-        System.out.println(lls.get());
+        lls.add(7);
+        lls.add(8);
+        lls.add(9);
+        lls.add(10);
+        lls.add(11);
         System.out.println(lls.remove());
-        System.out.println(lls.get());
+        System.out.println(lls.remove());
+        System.out.println(lls.remove());
+        System.out.println(lls.remove());
+        System.out.println(lls.remove());
+        System.out.println(lls.remove());
 
     }
 
